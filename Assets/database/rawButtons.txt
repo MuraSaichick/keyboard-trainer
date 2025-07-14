@@ -1,0 +1,732 @@
+Rectangle {
+            width: 800
+            height: 40
+            color: Qt.alpha(themeManager.figure, 0.7)
+            border.color: themeManager.border
+            border.width: 1
+            radius: 10
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            // Для текста
+            Row {
+                id: rowButtons
+                spacing: 5
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                width: parent.width - 20 // Оставляем отступы по бокам
+
+
+                // Кнопка уменьшения шрифта
+                Rectangle {
+                    id: decreaseFontButton
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    Text {
+                        anchors.centerIn: parent
+                        text: "A-"
+                        color: themeManager.text
+                        font.bold: true
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            if(root.currentIndexFontSizes !== 0) {
+                                root.currentIndexFontSizes--;
+                            }
+                        }
+                    }
+                }
+
+                // Кнопка увеличения шрифта
+                Rectangle {
+                    id: increaseFontButton
+                    width: 30 // Относительный размер с ограничением
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    Text {
+                        anchors.centerIn: parent
+                        text: "A+"
+                        color: themeManager.text
+                        font.bold: true
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            if(root.currentIndexFontSizes != 6) {
+                                root.currentIndexFontSizes++;
+                            }
+                        }
+
+                    }
+                }
+
+                // Кнопка изменения типа шрифта
+                Rectangle {
+                    id: fontTypeButton
+                    width: 30 // Относительный размер с ограничением
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    Text {
+                        anchors.centerIn: parent
+                        text: "Aa"
+                        color: themeManager.text
+                        font.bold: true
+                        font.italic: true
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            root.currentIndexFamily = (root.currentIndexFamily + 1) % root.fonts.length
+                        }
+                    }
+                }
+
+                // Разделительная линия
+                Rectangle {
+                    width: 5 // Ширина линии
+                    height: rowButtons.height * 0.8 // Высота линии
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: 2
+                    color: themeManager.border // Цвет линии
+                }
+
+                // Кнопка с пунктуацией
+                Rectangle {
+                    id: punctuation
+                    width: punctuationText.width + 20 // Относительный размер с ограничением
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    // Добавляем свойство для отслеживания состояния выделения
+                    property bool isHighlighted: false
+
+                    Text {
+                        id: punctuationText
+                        anchors.centerIn: parent
+                        text: qsTr("Пунктуация")
+                        font.pixelSize: parent.height / 2
+                        // Можно также менять цвет текста при выделении для лучшего контраста
+                        color: themeManager.text
+                        font.bold: parent.isHighlighted
+                    }
+
+                    // Для выделения
+                    Rectangle {
+                        id: punctuationUnderline
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 2
+                        color: themeManager.text // Цвет подчеркивания как у текста
+                        opacity: parent.isHighlighted ? 1 : 0 // Видимо только когда выбрано
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            // Переключаем состояние выделения при каждом клике
+                            punctuation.isHighlighted = !punctuation.isHighlighted
+                            console.log("Кнопка " + (punctuation.isHighlighted ? "выделена" : "не выделена"))
+                            startTest();
+                        }
+                    }
+                }
+
+                // Кнопка для Цифр
+                Rectangle {
+                    id: numbers
+                    width: numbersText.width + 20 // Относительный размер с ограничением
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isHighlighted: false
+
+                    Text {
+                        id: numbersText
+                        anchors.centerIn: parent
+                        text: qsTr("Числа")
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                        font.bold: parent.isHighlighted
+                    }
+
+                    // Для выделения
+                    Rectangle {
+                        id: numbersUnderline
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 2
+                        color: themeManager.text // Цвет подчеркивания как у текста
+                        opacity: parent.isHighlighted ? 1 : 0 // Видимо только когда выбрано
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            numbers.isHighlighted = !numbers.isHighlighted
+                            console.log("Кнопка Числа нажата")
+                            startTest();
+                        }
+                    }
+                }
+
+                // Разделительная линия
+                Rectangle {
+                    width: 5 // Ширина линии
+                    height: rowButtons.height * 0.8 // Высота линии
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: 2
+                    color: themeManager.border // Цвет линии
+                }
+
+                // Кнопка "Время"
+                Rectangle {
+                    id: time
+                    width: timeText.width + 20 // Относительный размер с ограничением
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: false // Свойство для отслеживания выбранного состояния
+
+                    // Добавляем подчеркивание для визуального выделения
+                    Rectangle {
+                        id: timeUnderline
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 2
+                        color: themeManager.text // Цвет подчеркивания как у текста
+                        opacity: time.isSelected ? 1 : 0 // Видимо только когда выбрано
+                    }
+
+                    Text {
+                        id: timeText
+                        anchors.centerIn: parent
+                        text: qsTr("Время")
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text // Цвет текста
+                        font.bold: time.isSelected // Жирный текст при выделении
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            console.log("Кнопка Время нажата")
+                            sizeWords.visible = false
+                            sizeTime.visible = true
+                            texts.isSelected = false
+                            words.isSelected = false
+                            time.isSelected = true // Устанавливаем флаг выделения при нажатии
+                            counter.timer = sizeTime.value
+                            root.typeTest = "time"
+                            root.testDetail = sizeTime.value
+                            startTest();
+                        }
+                    }
+                }
+
+                // кнопка "Слова"
+                Rectangle {
+                    id: words
+                    width: wordsText.width + 20 // Относительный размер с ограничением
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: true // Свойство для отслеживания выбранного состояния
+
+                    // Добавляем подчеркивание для визуального выделения
+                    Rectangle {
+                        id: underline
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 2
+                        color: themeManager.text // Цвет подчеркивания как у текста
+                        opacity: words.isSelected ? 1 : 0 // Видимо только когда выбрано
+                    }
+
+                    Text {
+                        id: wordsText
+                        anchors.centerIn: parent
+                        text: qsTr("Слова")
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text // Цвет текста
+                        font.bold: words.isSelected // Жирный текст при выделении
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            console.log("Кнопка Слова нажата")
+                            sizeTime.visible = false
+                            sizeWords.visible = true
+                            texts.isSelected = false
+                            time.isSelected = false
+                            words.isSelected = true
+                            root.typeTest = "words"
+                            root.testDetail = sizeWords.value
+                            startTest();
+                        }
+                    }
+                }
+
+                // Кнопка для текстов
+                Rectangle {
+                    id: texts
+                    width: textsText.width + 20 // Относительный размер с ограничением
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: false // Свойство для отслеживания выбранного состояния
+
+                    // Добавляем подчеркивание для визуального выделения
+                    Rectangle {
+                        id: quotesUnderline
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 2
+                        color: themeManager.text // Цвет подчеркивания как у текста
+                        opacity: texts.isSelected ? 1 : 0 // Видимо только когда выбрано
+                    }
+
+                    Text {
+                        id: textsText
+                        anchors.centerIn: parent
+                        text: qsTr("Текст")
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text // Цвет текста
+                        font.bold: texts.isSelected // Жирный текст при выделении
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            console.log("Кнопка Цитаты нажата")
+                            sizeWords.visible = false
+                            sizeTime.visible = false
+                            words.isSelected = false // Снимаем выделение с других кнопок
+                            time.isSelected = false
+                            texts.isSelected = true // Устанавливаем флаг выделения при нажатии
+                            root.typeTest = "text"
+                            startTest();
+                        }
+                    }
+                }
+
+                // разделительная линия
+                Rectangle {
+                    width: 5 // Ширина линии
+                    height: rowButtons.height * 0.8 // Высота линии
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: 2
+                    color: themeManager.border // Цвет линии
+                }
+            }
+
+            // количество слов
+            Row {
+                id: sizeWords
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: width / 4
+                spacing: 8 // Увеличиваем расстояние между кнопками
+                visible: true
+                property int value: 10
+
+                Rectangle {
+                    id: ten
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: true
+                    Text {
+                        anchors.centerIn: parent
+                        text: "10"
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                        font.bold: parent.isSelected
+                    }
+
+                    // Добавляем подчеркивание для визуального выделения
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 2
+                        color: themeManager.text // Цвет подчеркивания как у текста
+                        opacity: parent.isSelected ? 1 : 0 // Видимо только когда выбрано
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            sizeWords.value = 10
+                            twentyFive.isSelected = false
+                            fifty.isSelected = false
+                            oneHundred.isSelected = false
+                            ten.isSelected = true
+                            console.log("Кнопка 10 нажата")
+                            root.typeTest = "words"
+                            startTest();
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: twentyFive
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: false
+                    Text {
+                        anchors.centerIn: parent
+                        text: "25"
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                    }
+                     // Добавляем подчеркивание для визуального выделения
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 2
+                        color: themeManager.text // Цвет подчеркивания как у текста
+                        opacity: parent.isSelected ? 1 : 0 // Видимо только когда выбрано
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            sizeWords.value = 25
+                            fifty.isSelected = false
+                            oneHundred.isSelected = false
+                            ten.isSelected = false
+                            twentyFive.isSelected = true
+                            console.log("Кнопка 25 нажата")
+                            root.typeTest = "words"
+                            startTest();
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: fifty
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: false
+                    Text {
+                        anchors.centerIn: parent
+                        text: "50"  // Исправлено с "10" на "50"
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                    }
+                     // Добавляем подчеркивание для визуального выделения
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 2
+                        color: themeManager.text // Цвет подчеркивания как у текста
+                        opacity: parent.isSelected ? 1 : 0 // Видимо только когда выбрано
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            sizeWords.value = 50
+                            oneHundred.isSelected = false
+                            ten.isSelected = false
+                            twentyFive.isSelected =false
+                            fifty.isSelected = true
+                            console.log("Кнопка 50 нажата")
+                            root.typeTest = "words"
+                            startTest();
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: oneHundred
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: false
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "100"
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                    }
+                    // Добавляем подчеркивание для визуального выделения
+                   Rectangle {
+                       anchors.bottom: parent.bottom
+                       width: parent.width
+                       height: 2
+                       color: themeManager.text // Цвет подчеркивания как у текста
+                       opacity: parent.isSelected ? 1 : 0 // Видимо только когда выбрано
+                   }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            sizeWords.value = 100
+                            ten.isSelected = false
+                            twentyFive.isSelected =false
+                            fifty.isSelected = false
+                            oneHundred.isSelected = true
+                            console.log("Кнопка 100 нажата")
+                            root.typeTest = "words"
+                            startTest();
+                        }
+                    }
+                }
+            }
+
+            // На время (вынесено из Row для оптимизации структуры)
+            Row {
+                id: sizeTime
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: width / 4
+                spacing: 8 // Увеличиваем расстояние между кнопками
+                visible: false
+                property int value: 15
+
+                Rectangle {
+                    id: fifteen
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: true
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "15"
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                        font.bold: parent.isSelected
+                    }
+                    // Добавляем подчеркивание для визуального выделения
+                   Rectangle {
+                       anchors.bottom: parent.bottom
+                       width: parent.width
+                       height: 2
+                       color: themeManager.text // Цвет подчеркивания как у текста
+                       opacity: parent.isSelected ? 1 : 0 // Видимо только когда выбрано
+                   }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked: {
+                            sizeTime.value = 15
+                            thirty.isSelected = false
+                            oneMinute.isSelected = false
+                            twoMinute.isSelected = false
+                            fifteen.isSelected = true
+                            console.log("Кнопка 15 нажата")
+                            startTest();
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: thirty
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: false
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "30"
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                        font.bold: parent.isSelected
+                    }
+                    // Добавляем подчеркивание для визуального выделения
+                   Rectangle {
+                       anchors.bottom: parent.bottom
+                       width: parent.width
+                       height: 2
+                       color: themeManager.text // Цвет подчеркивания как у текста
+                       opacity: parent.isSelected ? 1 : 0 // Видимо только когда выбрано
+                   }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked:{
+                            sizeTime.value = 30
+                            oneMinute.isSelected = false
+                            twoMinute.isSelected = false
+                            fifteen.isSelected = false
+                            thirty.isSelected = true
+                            console.log("Кнопка 30 нажата")
+                            startTest();
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: oneMinute
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: false
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "60"
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                        font.bold: parent.isSelected
+                    }
+                    // Добавляем подчеркивание для визуального выделения
+                   Rectangle {
+                       anchors.bottom: parent.bottom
+                       width: parent.width
+                       height: 2
+                       color: themeManager.text // Цвет подчеркивания как у текста
+                       opacity: parent.isSelected ? 1 : 0 // Видимо только когда выбрано
+                   }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked:{
+                            sizeTime.value = 60
+                            thirty.isSelected = false
+                            twoMinute.isSelected = false
+                            fifteen.isSelected = false
+                            oneMinute.isSelected = true
+                            console.log("Кнопка 60 нажата")
+                            startTest();
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: twoMinute
+                    width: 30
+                    height: 30
+                    radius: 5
+                    color: "transparent"
+                    property bool isSelected: false
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "120"
+                        font.pixelSize: parent.height / 2
+                        color: themeManager.text
+                        font.bold: parent.isSelected
+                    }
+                    // Добавляем подчеркивание для визуального выделения
+                   Rectangle {
+                       anchors.bottom: parent.bottom
+                       width: parent.width
+                       height: 2
+                       color: themeManager.text // Цвет подчеркивания как у текста
+                       opacity: parent.isSelected ? 1 : 0 // Видимо только когда выбрано
+                   }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: parent.color = themeManager.highlight
+                        onReleased: parent.color = "transparent"
+                        hoverEnabled: true
+                        onEntered: parent.color = themeManager.buttonHoverColor
+                        onExited: parent.color = "transparent"
+                        onClicked:{
+                            sizeTime.value = 120
+                            thirty.isSelected = false
+                            oneMinute.isSelected = false
+                            fifteen.isSelected = false
+                            twoMinute.isSelected = true
+                            console.log("Кнопка 120 нажата")
+                            startTest();
+                        }
+                    }
+                }
+            }
+        }

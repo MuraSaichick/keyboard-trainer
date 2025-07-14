@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/translations">
+        <file>SigmaTap_en_US.ts</file>
+        <file>SigmaTap_ru_RU.ts</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>Assets/image/rootIcon.jpg</file>
+        <file>Assets/image/SettingIcon.png</file>
+        <file>Assets/image/SigmaTap.png</file>
+    </qresource>
+</RCC>
