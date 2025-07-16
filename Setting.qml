@@ -406,7 +406,10 @@ ApplicationWindow {
                     }
 
                     model: [qsTr("Оконный"), qsTr("Полноэкранный")]
-                    currentIndex: 0
+                    Component.onCompleted: {
+                        console.log(windowManager.isFullscreen());
+                        modeComboBox.currentIndex = windowManager.isFullscreen()? 1 : 0;
+                    }
 
                     delegate: ItemDelegate {
                         width: parent.width
@@ -584,6 +587,8 @@ ApplicationWindow {
                             let index = themesColor.find(capitalized)
                             if (index !== -1)
                                 themesColor.currentIndex = index
+
+                            modeComboBox.currentIndex = windowManager.isFullscreen()? 1 : 0;
                         }
                     }
 

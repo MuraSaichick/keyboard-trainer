@@ -56,7 +56,7 @@ Item {
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Назад"
+                text: qsTr("Назад")
                 font.pixelSize: 16
                 color: themeManager.text
             }

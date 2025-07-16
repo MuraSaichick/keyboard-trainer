@@ -138,7 +138,7 @@ ApplicationWindow {
                         }
                         Text {
                             id: registrationDate
-                            text: qsTr("Дата регистрации:") + " " + UserStats.getRegistrationDate();
+                            text: qsTr("Дата регистрации") + ": " + UserStats.getRegistrationDate();
                             font.pixelSize: 14;
                             color: themeManager.text
                         }

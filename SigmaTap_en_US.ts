@@ -36,7 +36,10 @@
         <source>Ср. скорость EN</source>
         <translation>Avg speed EN</translation>
     </message>
-
+    <message>
+        <source>зн/мин</source>
+        <translation>cpm</translation>
+    </message>
 </context>
 
 <context>
@@ -209,6 +212,10 @@
         <source>Текст</source>
         <translation>Text</translation>
     </message>
+    <message>
+        <source>Назад</source>
+        <translation>Back</translation>
+    </message>
 </context>
 
 <context>
@@ -350,6 +357,14 @@
     <source>сек</source>
     <translation>sec</translation>
 </message>
+<message>
+    <source>Прогресс уроков</source>
+    <translation>Lesson progress</translation>
+</message>
+<message>
+    <source>Дата регистрации</source>
+    <translation>Registration date</translation>
+</message>
 </context>
 
 <context>
@@ -372,4 +387,18 @@
 </message>
 </context>
 
+<context>
+    <name>TypingTrainerRU</name>
+    <message>
+        <source>Назад</source>
+        <translation>Back</translation>
+    </message>
+</context>
+<context>
+    <name>TypingTrainerEN</name>
+    <message>
+        <source>Назад</source>
+        <translation>Back</translation>
+    </message>
+</context>
 </TS>

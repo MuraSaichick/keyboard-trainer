@@ -276,7 +276,7 @@ Rectangle {
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                text: "Назад"
+                text: qsTr("Назад")
                 font.pixelSize: 25
                 color: themeManager.text
             }

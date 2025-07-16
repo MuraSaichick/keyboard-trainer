@@ -86,7 +86,7 @@ Rectangle {
             // Средняя скорость печати на русском
             Text {
                 width: parent.width
-                text: qsTr("Ср. скорость RU") + ": " + UserStats.getTypingSpeed("ru") + " " + "зн/мин"
+                text: qsTr("Ср. скорость RU") + ": " + UserStats.getTypingSpeed("ru") + " " + qsTr("зн/мин")
                 elide: Text.ElideRight
                 font.pixelSize: Math.min(profile.defaultHeight * 0.13, profile.defaultWidth * 0.09)
                 color: themeManager.text
@@ -97,7 +97,7 @@ Rectangle {
             // Средняя скорость печати на английском
             Text {
                 width: parent.width
-                text: qsTr("Ср. скорость EN") + ": " + UserStats.getTypingSpeed("en") + " " + "зн/мин"
+                text: qsTr("Ср. скорость EN") + ": " + UserStats.getTypingSpeed("en") + " " + qsTr("зн/мин")
                 elide: Text.ElideRight
                 font.pixelSize: Math.min(profile.defaultHeight * 0.13, profile.defaultWidth * 0.09)
                 color: themeManager.text
